@@ -1,0 +1,34 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class MyFileReader {
+    private String filename;
+
+    public MyFileReader(String filename) {
+        this.filename = filename;
+    }
+
+    public String readFile() {
+        StringBuilder content = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // Manejo básico de la excepción; puedes personalizarlo según tus necesidades.
+        }
+
+        return content.toString();
+    }
+
+    public static void main(String[] args) {
+        MyFileReader fileReader = new MyFileReader("ejemplo.txt");
+        String fileContent = fileReader.readFile();
+
+        System.out.println(fileContent);
+    }
+}

@@ -1,0 +1,107 @@
+package finance;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+import database.PaymentDatabase;
+
+public class profile {
+
+	private String name;
+	private double income;
+	private double outcome;
+	private double AHW;
+	private double BasicSavings;
+	private String path; 
+	
+	public PaymentDatabase db;
+	
+	public double TotalIncome; 
+	public double TotalOutcome;
+	public double AmountMoney; 
+	
+	public profile(String name, double income, double outcome, double AHW, double BasicSaving, String path) {
+		name = this.name;
+		income = this.income;
+		outcome = this.outcome;
+		AHW = this.AHW;
+		BasicSavings = this.BasicSavings;
+		path = this.path;
+		
+		db = PaymentDatabase.getInstance(path);
+		
+		System.out.print(db.payment[1][1]);
+		
+		//FinancialStatus();
+		
+	}
+	
+	public void FinancialStatus() {
+		TotalIncome = 0; 
+		TotalOutcome = db.payment.length*outcome;
+		
+		int i = 0;
+		while(i<db.payment.length && db.payment[i][1] != null) { 
+		
+			TotalIncome += Double.parseDouble(db.payment[i][1]);
+			i++;
+		}
+		
+		AmountMoney = TotalIncome-TotalOutcome; 
+		
+	}
+	public void AddPayment(String date, String amount, String HW) throws IOException {
+		int index = 0;
+		for(int i = 0; i<db.payment[0].length-1; i++) {
+			if(db.payment[0][i] == null) {
+				index = i; 
+				break;
+			}
+		}
+		db.payment[0][index] = date; 
+		db.payment[1][index] = amount; 
+		db.payment[2][index] = HW;
+		
+		
+		
+		
+		
+	}
+	public String[] getDate() {
+		
+		String[] res = new String[db.payment[0].length];
+		
+		for(int i = 0; i < db.payment[0].length -1; i++) {
+			res[i] = db.payment[0][i];
+		}
+		
+		
+		return res;
+	}
+	public String[] getAmount() {
+		
+		String[] res = new String[db.payment[0].length];
+		
+		for(int i = 0; i < db.payment[0].length -1; i++) {
+			res[i] = db.payment[1][i];
+		}
+		
+		
+		return res;
+	}
+	public String[] getHoursWorked() {
+		
+		String[] res = new String[db.payment[0].length];
+		
+		for(int i = 0; i < db.payment[0].length -1; i++) {
+			res[i] = db.payment[2][i];
+		}
+		
+		
+		return res;
+	}
+	
+}

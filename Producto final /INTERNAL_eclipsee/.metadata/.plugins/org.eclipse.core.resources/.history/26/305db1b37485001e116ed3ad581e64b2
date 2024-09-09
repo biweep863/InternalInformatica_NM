@@ -1,0 +1,104 @@
+package database;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner; 
+
+public class PaymentDatabase {
+		
+	File fileDoc;
+	
+	Scanner scan = null; 
+	
+	public String[] upgrade; 
+	public int count = 0; 
+	
+	public static PaymentDatabase instance; 
+	
+	//hacer infinta la matriz
+	public  String[][] payment = new String [100][100];
+	
+	BufferedReader br = null; 
+	
+	
+	/* my path: /Users/luisbenvenuto/Desktop/internal info paulina/INTERNAL_eclipsee/Internal_Info/src/database/db.txt */
+	
+	private PaymentDatabase(String path) throws IOException{
+		
+		String line;
+		int i = 0;
+         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) { 	
+        	 String[] read = new String[10];  
+        	 while ((line = bufferedReader.readLine()) != null) {
+                    System.out.println(line);
+                    read[i] = line;
+                    i++;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace(); // Manejo básico de la excepción; puedes personalizarlo según tus necesidades.
+            }
+         System.out.println(read[0]);
+
+        /*while(i<read.length-1) {
+        	for(int j = 0; j<3; j++) {
+        		payment[k][j]= read[i];
+        		if(i>read.length-1) break;
+        		i++;
+        	}
+        	k++;
+        }*/
+	}
+	public void UpgradeDb(String path) {
+		int i = 0;
+		try (BufferedReader bufferedWriter = new BufferedWriter(new FileWriter(path))){
+			
+            while (i < payment.length) { 
+				  for (int j = 0; j<3; j++) {
+						payment[j][i] = line;
+						System.out.println(line);
+					}
+				  i++;
+				  }
+		}
+		try {
+			fileDoc = new File(path);
+			scan = new Scanner(fileDoc);
+			while(scan.hasNextLine()) {
+				for (int j = 0; j<3; j++) {
+					payment[j][i] = scan.nextLine();
+				}
+				i++;
+			}
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		for(int x = 0; x< payment.length; x++) {
+			for(int y = 0; y<payment[1].length; y++) {
+				payment[x][y] = null; 
+			}
+		}
+			
+	}
+	public static PaymentDatabase getInstance(String newPath) {
+		
+		
+		if (instance == null) {
+			try {
+				instance = new PaymentDatabase(newPath);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return instance;
+	}
+	
+	
+}
